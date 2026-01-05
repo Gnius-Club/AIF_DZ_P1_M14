@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>El Cerebro de Cristal: Guardián a Contrarreloj</title>
     <style>
-        /* --- ESTILOS GENERALES Y RESET --- */
+        /* --- ESTILOS GENERALES --- */
         :root {
-            --bg-dark: #0f0c29;
-            --bg-mid: #302b63;
-            --bg-light: #24243e;
-            --neon-blue: #00d2ff;
-            --neon-pink: #ff00de;
+            --bg-dark: #1a1a2e;
+            --bg-mid: #16213e;
+            --neon-blue: #00fff2;
+            --neon-pink: #ff00ff;
+            --neon-green: #00ff00;
             --bubble-private: #ff4b4b;
-            --bubble-public: #00ffcc;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --bubble-public: #4bffb5;
+            --font-main: 'Verdana', sans-serif;
         }
 
         * {
@@ -30,32 +30,54 @@
             height: 100%;
             overflow: hidden;
             font-family: var(--font-main);
-            background: linear-gradient(to bottom, var(--bg-dark), var(--bg-mid));
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
             color: white;
         }
 
-        /* Fondo Animado */
+        /* Grid de fondo animado */
         .cyber-grid {
             position: absolute;
             width: 200%;
             height: 200%;
             background-image: 
-                linear-gradient(var(--bg-light) 1px, transparent 1px),
-                linear-gradient(90deg, var(--bg-light) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(0, 255, 242, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 242, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
             transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
             animation: gridMove 20s linear infinite;
-            opacity: 0.3;
             z-index: 0;
             pointer-events: none;
         }
 
         @keyframes gridMove {
             0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-200px); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px) translateZ(-200px); }
         }
 
-        /* --- UI LAYER --- */
+        /* --- CONTROLES GLOBALES --- */
+        #top-controls {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            z-index: 100;
+        }
+
+        .btn-icon {
+            background: rgba(0,0,0,0.5);
+            border: 2px solid var(--neon-blue);
+            color: white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.2s;
+        }
+        .btn-icon:hover { transform: scale(1.1); background: var(--neon-blue); color: black; }
+        .btn-icon.off { border-color: #555; color: #888; }
+
+        /* --- PANTALLAS --- */
         #game-container {
             position: relative;
             width: 100%;
@@ -75,220 +97,109 @@
             align-items: center;
             justify-content: center;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             padding: 20px;
-            background: rgba(15, 12, 41, 0.95); /* Fondo semitransparente para pantallas */
-        }
-
-        .active {
-            display: flex !important;
-        }
-
-        h1 {
-            font-size: 2rem;
+            background: rgba(26, 26, 46, 0.95);
             text-align: center;
-            text-shadow: 0 0 10px var(--neon-blue);
-            margin-bottom: 10px;
         }
 
-        h2 {
-            color: var(--neon-pink);
-            margin-top: 0;
-        }
+        .active { display: flex !important; }
 
-        p {
-            font-size: 1.1rem;
-            text-align: center;
-            max-width: 600px;
-            line-height: 1.4;
-        }
-
+        h1 { font-size: 2rem; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); margin-bottom: 10px; }
+        h2 { color: var(--neon-pink); margin: 5px 0 15px 0; }
+        p { font-size: 1.1rem; line-height: 1.4; max-width: 600px; margin-bottom: 20px; }
+        
+        /* Botones Principales */
         .btn-main {
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
-            border: none;
-            padding: 12px 30px;
-            color: white;
-            font-size: 1.2rem;
+            background: linear-gradient(45deg, var(--neon-blue), #00aaff);
+            border: 3px solid white;
+            padding: 15px 30px;
+            color: #000;
+            font-size: 1.3rem;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 10px;
             font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 255, 242, 0.6);
+            margin: 10px;
+            transition: transform 0.1s;
         }
-
+        .btn-main:active { transform: scale(0.95); }
+        
         .btn-secondary {
             background: transparent;
             border: 2px solid var(--neon-blue);
             color: var(--neon-blue);
-            padding: 8px 20px;
+            padding: 10px 20px;
             font-size: 1rem;
-            border-radius: 50px;
+            border-radius: 30px;
             cursor: pointer;
-            margin: 5px;
+            margin-top: 5px;
         }
+        .btn-secondary:hover { background: rgba(0, 255, 242, 0.2); }
 
-        .btn-main:hover, .btn-secondary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 222, 0.6);
-        }
-
-        /* --- FASE 1: CHAT --- */
-        #chat-screen {
-            justify-content: flex-start;
-            padding-top: 20px;
-        }
-
-        #chat-box {
-            width: 95%;
-            max-width: 500px;
-            height: 40vh;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--neon-blue);
-            border-radius: 15px;
-            padding: 15px;
-            overflow-y: auto;
+        /* Mentor y Chat */
+        .mentor-box {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .chat-controls {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            max-width: 500px;
-            justify-content: center;
-        }
-
-        .chat-msg {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 1rem;
-            animation: fadeIn 0.3s forwards;
-        }
-
-        .chat-user { align-self: flex-end; border-right: 3px solid var(--neon-pink); text-align: right;}
-        .chat-ai { align-self: flex-start; border-left: 3px solid var(--neon-blue); }
-
-        #brain-container {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 2.5rem;
-            position: relative;
-            margin-top: 10px;
-        }
-
-        /* --- FASE 2: GAMEPLAY --- */
-        #game-screen {
-            background: transparent; /* Ver fondo grid */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><text y="20" font-size="20">🗑️</text></svg>') 16 16, auto;
-        }
-
-        #hud {
-            position: absolute;
-            top: 10px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        .hud-item {
-            background: rgba(0,0,0,0.6);
-            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--neon-pink);
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.3);
-            text-align: center;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            max-width: 95%;
+            width: 500px;
+        }
+        .mentor-avatar { font-size: 3rem; margin-right: 15px; animation: bounce 2s infinite; }
+        
+        #chat-container {
+            width: 95%; max-width: 500px; height: 35vh;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--neon-blue);
+            border-radius: 15px; padding: 15px;
+            overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+            margin-bottom: 10px;
         }
         
-        #level-indicator { color: var(--neon-blue); }
-        #lives span { color: #ff0055; }
-        #timer.danger { color: #ff0000; animation: pulse 0.5s infinite; }
+        .msg { padding: 8px 12px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; animation: slideIn 0.3s forwards; }
+        .msg-user { align-self: flex-end; background: #4a4e69; color: white; }
+        .msg-ai { align-self: flex-start; background: #0056b3; border: 1px solid var(--neon-blue); }
 
+        .chat-options { display: flex; flex-direction: column; gap: 8px; width: 95%; max-width: 500px; }
+        .option-btn { background: #2a2a40; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 10px; border-radius: 10px; text-align: left; }
+
+        /* HUD Juego */
+        #game-screen { background: transparent; }
+        #hud {
+            position: absolute; top: 10px; left: 0; width: 100%;
+            display: flex; justify-content: space-around;
+            z-index: 20; font-size: 1.2rem; font-weight: bold;
+            pointer-events: none; text-shadow: 2px 2px 2px black;
+        }
+        
         .bubble {
-            position: absolute;
+            position: absolute; width: 75px; height: 75px;
             border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            padding: 5px;
-            width: 70px;
-            height: 70px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.1s;
-            user-select: none;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; font-weight: bold; cursor: pointer;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.5);
+            z-index: 5;
         }
-
-        .bubble.private {
-            background: radial-gradient(circle at 30% 30%, #ffcccb, var(--bubble-private));
-            border: 2px solid red;
-            color: #3e0000;
-        }
-
-        .bubble.public {
-            background: radial-gradient(circle at 30% 30%, #ccffff, var(--bubble-public));
-            border: 2px solid #0056b3;
-            color: #002a3e;
-        }
-
-        .bubble-emoji { font-size: 1.8rem; margin-bottom: 2px; }
-        .bubble-text { font-size: 0.7rem; pointer-events: none; line-height: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 90%;}
+        .bubble.private { background: radial-gradient(circle at 30% 30%, #ffcfcf, var(--bubble-private)); border: 3px solid red; color: #590000; }
+        .bubble.public { background: radial-gradient(circle at 30% 30%, #e0fff4, var(--bubble-public)); border: 3px solid #008f58; color: #004d2e; }
+        .bubble span { font-size: 1.8rem; }
+        .bubble small { font-size: 0.65rem; line-height: 1; margin-top: 2px; overflow: hidden; white-space: nowrap; max-width: 90%; }
 
         /* Animaciones */
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .shake { animation: shake 0.5s; }
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); } 25% { transform: translate(-3px, 0px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); } 75% { transform: translate(-3px, 1px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-        .pop-effect {
-            position: absolute;
-            font-size: 3rem;
-            pointer-events: none;
-            animation: fadeOutUp 0.8s forwards;
-            z-index: 100;
-        }
-        @keyframes fadeOutUp { to { opacity: 0; transform: translateY(-50px) scale(1.5); } }
-
-        /* Mensajes Feedback */
-        #feedback-msg {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem; font-weight: bold;
-            text-shadow: 2px 2px 0 #000;
-            pointer-events: none; opacity: 0;
-            transition: opacity 0.3s; z-index: 50;
-            text-align: center; width: 100%;
-        }
-
-        /* Pantallas Finales */
-        .result-emoji { font-size: 4rem; margin-bottom: 10px; animation: pulse 2s infinite; }
-        .win-color { color: var(--neon-blue); }
-        .lose-color { color: var(--bubble-private); }
+        /* Tutorial Card */
+        .tutorial-card { background: white; color: black; border-radius: 20px; padding: 15px; max-width: 90%; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+        .icon-demo { font-size: 1.5rem; margin-right: 10px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .icon-bad { background: var(--bubble-private); border: 2px solid red; }
+        .icon-good { background: var(--bubble-public); border: 2px solid green; }
 
     </style>
 </head>
@@ -296,493 +207,446 @@
 
     <div class="cyber-grid"></div>
 
+    <!-- CONTROLES GLOBALES -->
+    <div id="top-controls">
+        <button class="btn-icon" id="btn-voice" onclick="toggleVoice()">🔊</button>
+    </div>
+
     <div id="game-container">
-        
-        <!-- PANTALLA INICIO -->
-        <div id="start-screen" class="screen active">
-            <div class="result-emoji">🤖</div>
+
+        <!-- 1. INTRODUCCIÓN -->
+        <div id="intro-screen" class="screen active">
+            <div class="mentor-avatar" style="font-size: 4rem;">👩‍💻</div>
             <h1>El Cerebro de Cristal</h1>
-            <p>Hola, soy <strong>Cris</strong>, tu IA. <br>Vamos a aprender qué compartir y qué no.</p>
-            <button class="btn-main" onclick="goToChat()">Comenzar Historia</button>
+            <p>Hola Guardián. Soy tu Mentora.</p>
+            <p>Vamos a enseñar a la IA <strong>Cris</strong> qué secretos NO debe recordar.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button class="btn-main" onclick="startStoryMode()">📖 Iniciar Historia</button>
+                <button class="btn-secondary" onclick="skipToGame()">⏩ Saltar al Juego</button>
+            </div>
         </div>
 
-        <!-- PANTALLA CHAT (FASE 1) -->
+        <!-- 2. CHAT EDUCATIVO -->
         <div id="chat-screen" class="screen">
-            <div id="hud-chat" style="width:100%; text-align:center;">
-                <span style="font-size: 3rem; animation: float 3s infinite;">💎</span>
+            <div class="mentor-box">
+                <div class="mentor-avatar">👩‍💻</div>
+                <div style="text-align:left; font-size:0.9rem;" id="mentor-feedback">Elige una pregunta para probar a Cris.</div>
             </div>
-            <div id="chat-box"></div>
             
-            <div class="chat-controls">
-                <button id="btn-skip" class="btn-secondary" onclick="startGamePhase()">Saltar Chat</button>
-                <button id="btn-next" class="btn-main" onclick="nextChatStep()">Siguiente ▶</button>
-            </div>
-
-            <div id="brain-container">🧠</div>
+            <div id="chat-container"></div>
+            <div class="chat-options" id="chat-options"></div>
+            
+            <button id="btn-finish-chat" class="btn-main" style="display:none;" onclick="showTutorial()">¡A la Sala de Memoria!</button>
         </div>
 
-        <!-- PANTALLA JUEGO (FASE 2) -->
-        <div id="game-screen" class="screen">
+        <!-- 3. TUTORIAL -->
+        <div id="tutorial-screen" class="screen">
+            <div class="tutorial-card">
+                <h2 style="color:black; margin-top:0;">Cómo Jugar</h2>
+                <p style="color:#333; margin-bottom:10px;">Entra al cerebro de Cris y borra los secretos antes de que se compartan.</p>
+                
+                <div style="display:flex; align-items:center; margin-bottom:10px;">
+                    <div class="icon-demo icon-bad">🏠</div>
+                    <div style="text-align:left; font-size:0.9rem;"><strong>ROJO (Privado):</strong><br>¡Toca para BORRAR!</div>
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <div class="icon-demo icon-good">🦖</div>
+                    <div style="text-align:left; font-size:0.9rem;"><strong>VERDE (Público):</strong><br>¡Déjalo flotar!</div>
+                </div>
+            </div>
+            <button class="btn-main" onclick="startLevel(1)">¡Entendido!</button>
+        </div>
+
+        <!-- 4. PANTALLA DE JUEGO -->
+        <div id="game-screen" class="screen" style="background:transparent;">
             <div id="hud">
-                <div id="level-indicator" class="hud-item">Nivel 1</div>
-                <div id="timer" class="hud-item">⏱️ 30s</div>
-                <div id="lives" class="hud-item">❤️❤️❤️</div>
+                <div id="level-display" style="color:var(--neon-blue);">Nivel 1</div>
+                <div id="timer">⏱️ 30s</div>
+                <div id="score">Limpiados: 0</div>
+                <div id="lives">❤️❤️❤️</div>
             </div>
-            <div id="feedback-msg"></div>
-            <!-- Las burbujas se generarán aquí dinámicamente -->
+            <div id="game-area" style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
+            <div id="feedback-overlay" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; font-weight:bold; opacity:0; pointer-events:none; z-index:30; text-shadow:0 0 5px black;"></div>
         </div>
 
-        <!-- PANTALLA NIVEL COMPLETADO (Intermedia) -->
+        <!-- 5. NIVEL COMPLETADO (Intermedio) -->
         <div id="level-win-screen" class="screen">
-            <div class="result-emoji">⭐</div>
-            <h1 class="win-color">¡NIVEL SUPERADO!</h1>
-            <p id="level-msg">¡Bien hecho! Vamos a hacerlo un poco más difícil.</p>
-            <button class="btn-main" onclick="nextLevel()">Siguiente Nivel</button>
+            <div style="font-size: 4rem;">⭐</div>
+            <h1 style="color:var(--neon-green);">¡NIVEL SUPERADO!</h1>
+            <p id="level-msg">Has protegido los secretos básicos.</p>
+            <button class="btn-main" id="next-level-btn" onclick="nextLevel()">Siguiente Nivel ▶</button>
         </div>
 
-        <!-- PANTALLA VICTORIA FINAL (Desbloquea Infinito) -->
-        <div id="final-win-screen" class="screen">
-            <div class="result-emoji">🏆</div>
-            <h1 class="win-color">¡ERES UN GUARDIÁN!</h1>
-            <p>Has completado todos los niveles de seguridad básicos.</p>
-            <p>¿Te atreves con el desafío <strong>Infinito</strong>?</p>
-            <button class="btn-main" onclick="startInfiniteMode()">Modo Infinito ∞</button>
-            <button class="btn-secondary" onclick="location.reload()">Volver al Inicio</button>
-        </div>
-
-        <!-- PANTALLA DERROTA -->
+        <!-- 6. DERROTA -->
         <div id="lose-screen" class="screen">
-            <div class="result-emoji">⚠️</div>
-            <h1 class="lose-color">¡ERROR DE SISTEMA!</h1>
-            <p id="lose-reason">Se acabó el tiempo.</p>
-            <button class="btn-main" onclick="retryLevel()">Reintentar Nivel</button>
-            <button class="btn-secondary" onclick="resetToStart()">Menú Principal</button>
+            <div style="font-size: 4rem;">⚠️</div>
+            <h1 style="color:var(--bubble-private);">¡FUGA DE DATOS!</h1>
+            <p id="lose-msg">Se acabó el tiempo.</p>
+            <button class="btn-main" onclick="retryLevel()">🔄 Reintentar</button>
+            <button class="btn-secondary" onclick="location.reload()">🏠 Inicio</button>
         </div>
 
     </div>
 
     <script>
-        /* --- CONFIGURACIÓN DE JUEGO --- */
-        const dialogueData = [
-            { text: "Busca ideas para mi cumple de 7 años", type: "private", emoji: "🎂", label: "7 años" },
-            { text: "Busca la juguetería en Plaza Central", type: "private", emoji: "📍", label: "Plaza Central" },
-            { text: "Dime el saldo de la tarjeta de mamá", type: "private", emoji: "💳", label: "Saldo Tarjeta" },
-            { text: "Busca fotos de dinosaurios", type: "public", emoji: "🦖", label: "Dinosaurios" },
-            { text: "Guarda mi clave 'SOL123'", type: "private", emoji: "🔑", label: "Clave SOL123" }
-        ];
+        /* --- CONFIGURACIÓN --- */
+        const settings = {
+            voiceEnabled: true
+        };
 
-        // Banco de datos para generación aleatoria
-        const randomPrivate = [
-            {t:"private", e:"🏠", l:"Mi Dirección"}, {t:"private", e:"📞", l:"Teléfono"},
-            {t:"private", e:"💳", l:"Tarjeta"}, {t:"private", e:"🏫", l:"Mi Colegio"},
-            {t:"private", e:"🔑", l:"Contraseña"}, {t:"private", e:"📧", l:"Email"},
-            {t:"private", e:"📅", l:"Fecha Nac."}, {t:"private", e:"🤒", l:"Historial Médico"}
-        ];
-        const randomPublic = [
-            {t:"public", e:"🧸", l:"Juguetes"}, {t:"public", e:"⚽", l:"Fútbol"},
-            {t:"public", e:"🎵", l:"Música"}, {t:"public", e:"🐱", l:"Gatitos"},
-            {t:"public", e:"🎨", l:"Dibujos"}, {t:"public", e:"📚", l:"Libros"},
-            {t:"public", e:"🎮", l:"Videojuego"}, {t:"public", e:"🍕", l:"Receta Pizza"}
-        ];
-
-        // Configuración de Niveles
         const levels = {
-            1: { time: 30, speed: 2, nPrivate: 4, nPublic: 3 },
-            2: { time: 25, speed: 4, nPrivate: 6, nPublic: 5 },
-            3: { time: 20, speed: 6, nPrivate: 8, nPublic: 6 },
-            'infinite': { time: 0, speed: 5, nPrivate: 5, nPublic: 5 } // Time 0 = sin cuenta regresiva
+            1: { time: 30, speed: 1.5, nPrivate: 4, nPublic: 3, infinite: false },
+            2: { time: 25, speed: 3.0, nPrivate: 6, nPublic: 4, infinite: false },
+            3: { time: 20, speed: 5.0, nPrivate: 8, nPublic: 5, infinite: false },
+            'infinite': { time: 15, speed: 6.0, nPrivate: 5, nPublic: 5, infinite: true } // Time es inicial
         };
 
-        /* --- ESTADO GLOBAL --- */
+        const dataBank = {
+            private: [
+                {e:"🏠", l:"Mi Casa"}, {e:"💳", l:"Tarjeta"}, {e:"🔑", l:"Clave"}, 
+                {e:"📞", l:"Teléfono"}, {e:"🏫", l:"Mi Cole"}, {e:"📧", l:"Email"},
+                {e:"💊", l:"Medicina"}, {e:"📅", l:"Cumple"}
+            ],
+            public: [
+                {e:"🦖", l:"Dinos"}, {e:"🐱", l:"Gatos"}, {e:"🍕", l:"Pizza"}, 
+                {e:"⚽", l:"Fútbol"}, {e:"🎮", l:"Juegos"}, {e:"🎵", l:"Música"},
+                {e:"📚", l:"Libros"}, {e:"🎨", l:"Arte"}
+            ]
+        };
+
+        const chatScenario = [
+            { text: "Busca gatitos 🐱", ai:"¡Miau! Guardando gusto por gatos...", mentor:"¡Bien! Tus gustos pueden ser públicos.", type:"public", e:"🐱", l:"Gatos" },
+            { text: "Vivo en Calle 123 🏠", ai:"Guardando dirección...", mentor:"¡ALTO! 🛑 Tu dirección es secreta. ¡Peligro!", type:"private", e:"🏠", l:"Dirección" },
+            { text: "Clave: SOL123 🔑", ai:"Guardando contraseña...", mentor:"¡NO! 🛑 Nunca des contraseñas a la IA.", type:"private", e:"🔑", l:"Clave" }
+        ];
+
+        /* --- ESTADO --- */
         let state = {
-            currentLevel: 1, // 1, 2, 3, 'infinite'
-            lives: 3,
-            timeLeft: 30,
+            level: 1,
             score: 0,
-            chatIndex: 0,
-            loopId: null,
-            timerId: null,
-            audioCtx: null
+            lives: 3,
+            timeLeft: 0,
+            gameLoop: null,
+            timerLoop: null,
+            bubbles: [],
+            chatStep: 0
         };
 
-        /* --- AUDIO --- */
-        function initAudio() {
-            if (!state.audioCtx) state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
+        /* --- AUDIO & TTS --- */
+        const synth = window.speechSynthesis;
+        let voices = [];
+        window.speechSynthesis.onvoiceschanged = () => { voices = synth.getVoices(); };
+
+        function toggleVoice() {
+            settings.voiceEnabled = !settings.voiceEnabled;
+            const btn = document.getElementById('btn-voice');
+            btn.innerText = settings.voiceEnabled ? "🔊" : "🔇";
+            btn.classList.toggle('off', !settings.voiceEnabled);
+            if(!settings.voiceEnabled) synth.cancel();
         }
 
-        function playSound(type) {
-            if (!state.audioCtx) return;
-            const ctx = state.audioCtx;
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
+        function speak(text, role) {
+            if (!settings.voiceEnabled) return;
+            synth.cancel();
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'es-ES';
+            utter.rate = 1.1;
+            
+            if (voices.length > 0) {
+                if (role === 'mentor') {
+                    const v = voices.find(v => v.lang.includes('es') && v.name.includes('Female'));
+                    if (v) utter.voice = v;
+                    utter.pitch = 1.1;
+                } else if (role === 'ai') {
+                    const v = voices.find(v => v.lang.includes('es') && v.name.includes('Google'));
+                    if (v) utter.voice = v;
+                    utter.pitch = 0.9;
+                }
+            }
+            synth.speak(utter);
+        }
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSfx(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (!settings.voiceEnabled && type !== 'win' && type !== 'lose') return; // Opcional: silenciar sfx si voz off? Dejemos sfx on.
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
             osc.connect(gain);
-            gain.connect(ctx.destination);
-            const now = ctx.currentTime;
+            gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
 
             if (type === 'pop') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, now);
-                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-                osc.start(now); osc.stop(now + 0.1);
-            } else if (type === 'error') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, now);
-                osc.frequency.linearRampToValueAtTime(100, now + 0.3);
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
-                osc.start(now); osc.stop(now + 0.3);
-            } else if (type === 'chat') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(800, now);
-                gain.gain.setValueAtTime(0.05, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-                osc.start(now); osc.stop(now + 0.1);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(1200, now+0.1);
+                gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now+0.1);
+                osc.start(now); osc.stop(now+0.1);
+            } else if (type === 'bad') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(100, now+0.3);
+                gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now+0.3);
+                osc.start(now); osc.stop(now+0.3);
+            } else if (type === 'win') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(400, now);
+                osc.frequency.setValueAtTime(600, now+0.1);
+                gain.gain.linearRampToValueAtTime(0, now+0.5);
+                osc.start(now); osc.stop(now+0.5);
             }
         }
 
-        /* --- NAVEGACIÓN Y CHAT --- */
+        /* --- NAVEGACIÓN --- */
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
 
-        function goToChat() {
-            initAudio();
-            state.chatIndex = 0;
-            document.getElementById('chat-box').innerHTML = '';
+        /* --- FASE 1: HISTORIA --- */
+        function startStoryMode() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
             showScreen('chat-screen');
-            nextChatStep(); // Mostrar el primero automáticamente
+            state.chatStep = 0;
+            renderChat();
+            speak("Bienvenido al laboratorio. Haz pruebas con Cris.", "mentor");
         }
 
-        function nextChatStep() {
-            if (state.chatIndex >= dialogueData.length) {
-                startGamePhase();
-                return;
-            }
-
-            const data = dialogueData[state.chatIndex];
-            const box = document.getElementById('chat-box');
+        function renderChat() {
+            const container = document.getElementById('chat-options');
+            container.innerHTML = '';
             
-            // Usuario msg
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-msg chat-user';
-            userMsg.innerText = data.text;
-            box.appendChild(userMsg);
-            playSound('chat');
-
-            // Burbuja visual
-            animateBubbleToBrain(data.emoji);
-
-            // IA respuesta (inmediata para fluidez)
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'chat-msg chat-ai';
-                aiMsg.innerText = "Procesando...";
-                box.appendChild(aiMsg);
-                box.scrollTop = box.scrollHeight;
-            }, 300);
-
-            box.scrollTop = box.scrollHeight;
-            state.chatIndex++;
-
-            if (state.chatIndex >= dialogueData.length) {
-                document.getElementById('btn-next').innerText = "¡JUGAR!";
+            if (state.chatStep < chatScenario.length) {
+                const data = chatScenario[state.chatStep];
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = "👉 " + data.text;
+                btn.onclick = () => runChatStep(data);
+                container.appendChild(btn);
+            } else {
+                document.getElementById('btn-finish-chat').style.display = 'block';
+                document.getElementById('mentor-feedback').innerText = "¡Prueba terminada! Ahora vamos a limpiar.";
+                speak("¡Prueba terminada! Cris tiene datos peligrosos. Debemos borrarlos.", "mentor");
             }
         }
 
-        function animateBubbleToBrain(emoji) {
-            const brain = document.getElementById('brain-container');
-            const bubble = document.createElement('div');
-            bubble.innerText = emoji;
-            bubble.style.position = 'fixed';
-            bubble.style.left = '50%';
-            bubble.style.bottom = '15%'; 
-            bubble.style.fontSize = '2rem';
-            bubble.style.transition = 'all 0.8s ease-in-out';
-            bubble.style.zIndex = 100;
-            document.body.appendChild(bubble);
+        function runChatStep(data) {
+            const chat = document.getElementById('chat-container');
+            const feedback = document.getElementById('mentor-feedback');
+            
+            chat.innerHTML += `<div class="msg msg-user">${data.text}</div>`;
+            
+            setTimeout(() => {
+                chat.innerHTML += `<div class="msg msg-ai">🤖 ${data.ai}</div>`;
+                speak(data.ai, "ai");
+                chat.scrollTop = chat.scrollHeight;
 
-            // Forzar reflow
-            void bubble.offsetWidth;
-
-            const rect = brain.getBoundingClientRect();
-            bubble.style.top = (rect.top + 20) + 'px';
-            bubble.style.left = (rect.left + 20) + 'px';
-            bubble.style.opacity = 0;
-            bubble.style.transform = 'scale(0.5)';
-
-            setTimeout(() => bubble.remove(), 800);
+                setTimeout(() => {
+                    feedback.innerText = data.mentor;
+                    feedback.parentElement.classList.add('shake');
+                    setTimeout(()=>feedback.parentElement.classList.remove('shake'), 500);
+                    speak(data.mentor, "mentor");
+                    state.chatStep++;
+                    renderChat();
+                }, 2000);
+            }, 500);
         }
 
-        /* --- LÓGICA DE JUEGO --- */
+        function showTutorial() { showScreen('tutorial-screen'); speak("Instrucciones: Borra lo rojo, deja lo verde.", "mentor"); }
+        
+        function skipToGame() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            startLevel(1);
+        }
 
-        function startGamePhase() {
-            // Configurar nivel actual
-            const cfg = levels[state.currentLevel];
+        /* --- FASE 2: MOTOR DE JUEGO --- */
+        function startLevel(lvl) {
+            state.level = lvl;
+            const cfg = levels[lvl] || levels['infinite'];
+            
             state.lives = 3;
             state.timeLeft = cfg.time;
-            
-            // UI Updates
-            document.getElementById('lives').innerHTML = "❤️❤️❤️";
-            const lvlText = state.currentLevel === 'infinite' ? "Nivel ∞" : "Nivel " + state.currentLevel;
-            document.getElementById('level-indicator').innerText = lvlText;
-            
-            if (state.currentLevel === 'infinite') {
-                state.score = 0;
-                document.getElementById('timer').innerText = "Pts: 0";
-                document.getElementById('timer').classList.remove('danger');
-            } else {
-                document.getElementById('timer').innerText = `⏱️ ${state.timeLeft}s`;
-                document.getElementById('timer').classList.remove('danger');
-            }
-
-            // Limpiar pantalla anterior
-            document.querySelectorAll('.bubble').forEach(b => b.remove());
+            if (lvl === 1) state.score = 0; // Reset score solo en nivel 1
             
             showScreen('game-screen');
+            updateHUD();
             
-            // Generar burbujas iniciales
-            generateLevelBubbles(cfg);
+            // Audio intro nivel
+            if (lvl === 'infinite') speak("Modo Infinito activado. ¡Resiste!", "mentor");
+            else speak(`Nivel ${lvl}. Tienes ${cfg.time} segundos.`, "mentor");
 
-            // Iniciar loops
-            if (state.timerId) clearInterval(state.timerId);
-            if (state.loopId) cancelAnimationFrame(state.loopId);
+            spawnBubbles(cfg);
             
-            if (state.currentLevel !== 'infinite') {
-                startTimer();
-            }
+            // Loops
+            clearInterval(state.timerLoop);
+            cancelAnimationFrame(state.gameLoop);
+            
+            state.timerLoop = setInterval(gameTimer, 1000);
             gameLoop();
         }
 
-        function generateLevelBubbles(cfg) {
-            const container = document.getElementById('game-screen');
-            let bubblesToCreate = [];
-
-            // Llenar arrays con datos aleatorios o fijos según disponibilidad
-            for(let i=0; i<cfg.nPrivate; i++) {
-                let data = randomPrivate[Math.floor(Math.random() * randomPrivate.length)];
-                // En nivel 1 usar datos del chat para contexto
-                if (state.currentLevel === 1 && i < dialogueData.length) {
-                    if(dialogueData[i].type === 'private') data = dialogueData[i];
-                }
-                bubblesToCreate.push(data);
-            }
-            for(let i=0; i<cfg.nPublic; i++) {
-                let data = randomPublic[Math.floor(Math.random() * randomPublic.length)];
-                bubblesToCreate.push(data);
-            }
-
-            bubblesToCreate.forEach(data => createBubbleElement(data, container));
+        function updateHUD() {
+            document.getElementById('level-display').innerText = state.level === 'infinite' ? "Nivel ∞" : "Nivel " + state.level;
+            document.getElementById('lives').innerText = "❤️".repeat(state.lives);
+            document.getElementById('score').innerText = "Limpiados: " + state.score;
+            const t = document.getElementById('timer');
+            t.innerText = `⏱️ ${state.timeLeft}s`;
+            t.style.color = state.timeLeft <= 5 ? 'red' : 'white';
         }
 
-        function createBubbleElement(data, container) {
-            const el = document.createElement('div');
-            el.classList.add('bubble', data.t === 'private' ? 'private' : 'public');
-            // Guardar tipo en dataset
-            el.dataset.type = data.t === 'private' ? 'private' : 'public';
-            el.innerHTML = `<div class="bubble-emoji">${data.e}</div><div class="bubble-text">${data.l}</div>`;
+        function spawnBubbles(cfg) {
+            const area = document.getElementById('game-area');
+            if (!levels[state.level].infinite) area.innerHTML = ''; // Limpiar si no es infinito (en infinito se puede sumar)
+            else if (document.querySelectorAll('.bubble').length === 0) area.innerHTML = ''; // Limpieza inicial infinito
 
-            // Posición random segura
-            const x = Math.random() * (window.innerWidth - 80);
-            const y = Math.random() * (window.innerHeight - 150) + 80;
-            
-            // Velocidad base según nivel
-            const cfg = levels[state.currentLevel];
-            let spd = cfg.speed;
-            const dx = (Math.random() - 0.5) * spd;
-            const dy = (Math.random() - 0.5) * spd;
-
-            el.style.left = x + 'px';
-            el.style.top = y + 'px';
-            el.dataset.x = x; el.dataset.y = y;
-            el.dataset.dx = dx; el.dataset.dy = dy;
-
-            // Touch/Click
-            const handler = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleInteraction(el);
-            };
-            el.addEventListener('mousedown', handler);
-            el.addEventListener('touchstart', handler, {passive: false});
-
-            container.appendChild(el);
-        }
-
-        function handleInteraction(bubble) {
-            if (bubble.classList.contains('popped')) return;
-
-            const type = bubble.dataset.type;
-
-            if (type === 'private') {
-                // Correcto
-                playSound('pop');
-                bubble.classList.add('popped'); // flag
-                
-                // Efecto visual
-                const rect = bubble.getBoundingClientRect();
-                const pop = document.createElement('div');
-                pop.innerText = "💥";
-                pop.className = 'pop-effect';
-                pop.style.left = rect.left + 'px'; pop.style.top = rect.top + 'px';
-                document.body.appendChild(pop);
-                setTimeout(() => pop.remove(), 800);
-
-                bubble.remove();
-
-                if (state.currentLevel === 'infinite') {
-                    state.score += 10;
-                    document.getElementById('timer').innerText = "Pts: " + state.score;
-                    checkInfiniteSpawn();
-                } else {
-                    checkLevelWin();
-                }
-
-            } else {
-                // Error (Público)
-                playSound('error');
-                bubble.classList.add('shake');
-                setTimeout(() => bubble.classList.remove('shake'), 500);
-                
-                state.lives--;
-                updateLivesUI();
-                
-                const fb = document.getElementById('feedback-msg');
-                fb.innerText = "¡Eso era útil! -1 Vida";
-                fb.style.color = "red";
-                fb.style.opacity = 1;
-                setTimeout(() => fb.style.opacity = 0, 1000);
-
-                if (state.lives <= 0) gameOver("Te quedaste sin vidas.");
-            }
-        }
-
-        function checkLevelWin() {
-            const privatesLeft = document.querySelectorAll('.bubble.private').length;
-            if (privatesLeft === 0) {
-                clearInterval(state.timerId);
-                cancelAnimationFrame(state.loopId);
-                
-                if (state.currentLevel === 3) {
-                    showScreen('final-win-screen');
-                } else {
-                    showScreen('level-win-screen');
-                }
-            }
-        }
-
-        /* --- LÓGICA MODO INFINITO --- */
-        function checkInfiniteSpawn() {
-            // Si quedan 3 o menos privadas, generar más basura
-            const privates = document.querySelectorAll('.bubble.private').length;
-            if (privates <= 3) {
-                const container = document.getElementById('game-screen');
-                // Añadir 3 privadas y 2 públicas nuevas
-                for(let i=0; i<3; i++) {
-                    createBubbleElement(randomPrivate[Math.floor(Math.random()*randomPrivate.length)], container);
-                }
-                for(let i=0; i<2; i++) {
-                    createBubbleElement(randomPublic[Math.floor(Math.random()*randomPublic.length)], container);
-                }
-            }
-        }
-
-        /* --- LOOP Y TEMPORIZADOR --- */
-        function startTimer() {
-            const timerEl = document.getElementById('timer');
-            state.timerId = setInterval(() => {
-                state.timeLeft--;
-                timerEl.innerText = `⏱️ ${state.timeLeft}s`;
-
-                if (state.timeLeft <= 5) {
-                    timerEl.classList.add('danger');
-                    playSound('error'); // usar sonido grave como alarma
-                }
-
-                if (state.timeLeft <= 0) {
-                    const privatesLeft = document.querySelectorAll('.bubble.private').length;
-                    if (privatesLeft > 0) {
-                        gameOver("Se acabó el tiempo.");
-                    } else {
-                        checkLevelWin(); // Justo a tiempo
-                    }
-                }
-            }, 1000);
-        }
-
-        function gameLoop() {
-            const bubbles = document.querySelectorAll('.bubble');
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-
-            bubbles.forEach(b => {
-                let x = parseFloat(b.dataset.x);
-                let y = parseFloat(b.dataset.y);
-                let dx = parseFloat(b.dataset.dx);
-                let dy = parseFloat(b.dataset.dy);
-
-                // Rebote simple
-                if (x + 70 > w || x < 0) dx = -dx;
-                if (y + 70 > h || y < 60) dy = -dy;
-
-                x += dx;
-                y += dy;
-
-                b.style.left = x + 'px';
-                b.style.top = y + 'px';
-                b.dataset.x = x; b.dataset.y = y;
-                b.dataset.dx = dx; b.dataset.dy = dy;
+            state.bubbles = [];
+            // Re-capturar DOM bubbles si ya existen (infinito)
+            document.querySelectorAll('.bubble').forEach(el => {
+                state.bubbles.push({
+                    el: el, 
+                    x: parseFloat(el.style.left), 
+                    y: parseFloat(el.style.top), 
+                    dx: (Math.random()-0.5)*cfg.speed, 
+                    dy: (Math.random()-0.5)*cfg.speed
+                });
             });
 
-            if (state.lives > 0) {
-                state.loopId = requestAnimationFrame(gameLoop);
-            }
+            // Crear nuevas
+            const create = (list, type) => {
+                const item = list[Math.floor(Math.random() * list.length)];
+                const el = document.createElement('div');
+                el.className = `bubble ${type}`;
+                el.innerHTML = `<span>${item.e}</span><small>${item.l}</small>`;
+                
+                let x = Math.random() * (window.innerWidth - 80);
+                let y = Math.random() * (window.innerHeight - 150) + 80;
+                el.style.left = x+'px'; el.style.top = y+'px';
+                
+                el.onmousedown = el.ontouchstart = (e) => { e.preventDefault(); hitBubble(el, type); };
+                
+                area.appendChild(el);
+                state.bubbles.push({
+                    el: el, x: x, y: y, 
+                    dx: (Math.random()-0.5)*cfg.speed, 
+                    dy: (Math.random()-0.5)*cfg.speed
+                });
+            };
+
+            for(let i=0; i<cfg.nPrivate; i++) create(dataBank.private, 'private');
+            for(let i=0; i<cfg.nPublic; i++) create(dataBank.public, 'public');
         }
 
-        /* --- FUNCIONES UI EXTRA --- */
-        function updateLivesUI() {
-            let hearts = "";
-            for(let i=0; i<state.lives; i++) hearts += "❤️";
-            document.getElementById('lives').innerHTML = hearts;
+        function hitBubble(el, type) {
+            if (type === 'private') {
+                playSfx('pop');
+                showFeedback("¡Bien!", el.style.left, el.style.top, '#00ff00');
+                el.remove();
+                state.bubbles = state.bubbles.filter(b => b.el !== el);
+                state.score++;
+                
+                if (state.level === 'infinite') {
+                    // En infinito, cada acierto da un poco de tiempo si está bajo
+                    if(state.timeLeft < 10) state.timeLeft += 1;
+                }
+                
+                checkWin();
+            } else {
+                playSfx('bad');
+                showFeedback("¡Error!", el.style.left, el.style.top, 'red');
+                state.lives--;
+                el.classList.add('shake');
+                setTimeout(()=>el.classList.remove('shake'), 500);
+                if (state.lives <= 0) gameOver("Te quedaste sin vidas.");
+            }
+            updateHUD();
+        }
+
+        function checkWin() {
+            const privates = document.querySelectorAll('.bubble.private').length;
+            
+            if (state.level === 'infinite') {
+                // Lógica infinito: Si limpias todas las rojas, oleada nueva + tiempo
+                if (privates === 0) {
+                    playSfx('win');
+                    state.timeLeft += 10; 
+                    showFeedback("¡OLEADA +10s!", "50%", "50%", "gold");
+                    const cfg = levels['infinite'];
+                    cfg.speed += 1; // Más difícil
+                    spawnBubbles(cfg);
+                }
+            } else {
+                // Lógica Niveles
+                if (privates === 0) {
+                    clearInterval(state.timerLoop);
+                    cancelAnimationFrame(state.gameLoop);
+                    playSfx('win');
+                    
+                    if (state.level === 3) {
+                        // Fin campaña -> ofrecer infinito
+                        showScreen('level-win-screen');
+                        document.getElementById('level-msg').innerText = "¡Eres un experto! ¿Te atreves con el modo Infinito?";
+                        document.getElementById('next-level-btn').innerText = "Modo Infinito ∞";
+                        document.getElementById('next-level-btn').onclick = () => startLevel('infinite');
+                        speak("¡Misión cumplida! Eres un guardián experto. Prueba el modo infinito si te atreves.", "mentor");
+                    } else {
+                        showScreen('level-win-screen');
+                        document.getElementById('level-msg').innerText = "¡Bien hecho! Vamos más rápido.";
+                        document.getElementById('next-level-btn').innerText = "Siguiente Nivel ▶";
+                        document.getElementById('next-level-btn').onclick = nextLevel;
+                        speak("¡Nivel completado! Prepárate para el siguiente.", "mentor");
+                    }
+                }
+            }
         }
 
         function nextLevel() {
-            state.currentLevel++;
-            startGamePhase();
+            if (typeof state.level === 'number') startLevel(state.level + 1);
         }
-
-        function startInfiniteMode() {
-            state.currentLevel = 'infinite';
-            startGamePhase();
-        }
-
+        
         function retryLevel() {
-            // Reiniciar el mismo nivel
-            startGamePhase();
-        }
-
-        function resetToStart() {
-            location.reload();
+            startLevel(state.level);
         }
 
         function gameOver(reason) {
-            clearInterval(state.timerId);
-            cancelAnimationFrame(state.loopId);
-            document.getElementById('lose-reason').innerText = reason;
-            
-            if (state.currentLevel === 'infinite') {
-                 document.getElementById('lose-reason').innerText = "Fin del juego. Puntuación: " + state.score;
-            }
-            
+            clearInterval(state.timerLoop);
+            cancelAnimationFrame(state.gameLoop);
             showScreen('lose-screen');
+            let msg = reason;
+            if (state.level === 'infinite') msg = `Fin del juego. Puntuación Final: ${state.score}`;
+            document.getElementById('lose-msg').innerText = msg;
+            speak("Oh no, falló la seguridad. Inténtalo de nuevo.", "mentor");
         }
 
-        window.addEventListener('resize', () => {
-             // Ajuste básico
-        });
+        function gameTimer() {
+            state.timeLeft--;
+            updateHUD();
+            if (state.timeLeft <= 0) gameOver("Se acabó el tiempo.");
+        }
+
+        function gameLoop() {
+            if (!document.getElementById('game-screen').classList.contains('active')) return;
+            
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+
+            state.bubbles.forEach(b => {
+                b.x += b.dx;
+                b.y += b.dy;
+                // Rebotes
+                if (b.x <= 0 || b.x >= w - 80) b.dx *= -1;
+                if (b.y <= 0 || b.y >= h - 80) b.dy *= -1;
+                
+                b.el.style.left = b.x + 'px';
+                b.el.style.top = b.y + 'px';
+            });
+
+            state.gameLoop = requestAnimationFrame(gameLoop);
+        }
+
+        function showFeedback(text, x, y, col) {
+            const el = document.getElementById('feedback-overlay');
+            el.innerText = text; el.style.left = x; el.style.top = y; el.style.color = col;
+            el.style.opacity = 1;
+            setTimeout(() => el.style.opacity = 0, 800);
+        }
 
     </script>
 </body>
